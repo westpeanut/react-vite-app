@@ -44,8 +44,9 @@ export const QRCodeScanner = ({ onResult, onError }: QRCodeScannerProps) => {
 
   const handleError = React.useCallback(
     (error?: Error | string) => {
-      if (error === QRScanner.NO_QR_CODE_FOUND) return;
-
+      // filter no qr code found error
+      const message = typeof error === "string" ? error : error?.message;
+      if (message && message.includes(QRScanner.NO_QR_CODE_FOUND)) return;
       onError?.(error);
     },
     [onError]

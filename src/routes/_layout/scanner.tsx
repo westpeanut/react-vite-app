@@ -86,9 +86,9 @@ function QRCodeScannerDialog({
         <div className="absolute left-0 top-0 h-full w-full">
           <QRCodeScanner
             onResult={(result) => {
-              setOpen(false);
-              onSuccessCallback?.(result);
               toast.success(`QR code scanned successfully`);
+              onSuccessCallback?.(result);
+              setOpen(false);
             }}
             onError={(error) => {
               if (!error) return;
