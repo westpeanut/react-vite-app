@@ -100,12 +100,17 @@ module.exports = {
           from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: "0" },
         },
+        "scanner-bar": {
+          from: { top: "-0.5rem" },
+          to: { top: "calc(100% + 0.5rem)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "collapsible-down": "collapsible-down 0.2s ease-out",
         "collapsible-up": "collapsible-up 0.2s ease-out",
+        "scanner-bar": "scanner-bar 2s infinite alternate linear",
       },
     },
   },

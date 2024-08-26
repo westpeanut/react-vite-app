@@ -13,8 +13,8 @@
 import { Route as rootRoute } from './../routes/__root'
 import { Route as PlaceholderImport } from './../routes/placeholder'
 import { Route as LayoutImport } from './../routes/_layout'
-import { Route as IndexImport } from './../routes/index'
 import { Route as LayoutIndexImport } from './../routes/_layout/index'
+import { Route as LayoutScannerImport } from './../routes/_layout/scanner'
 
 // Create/Update Routes
 
@@ -28,13 +28,13 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LayoutIndexRoute = LayoutIndexImport.update({
   path: '/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutScannerRoute = LayoutScannerImport.update({
+  path: '/scanner',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -42,13 +42,6 @@ const LayoutIndexRoute = LayoutIndexImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -63,6 +56,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaceholderImport
       parentRoute: typeof rootRoute
     }
+    '/_layout/scanner': {
+      id: '/_layout/scanner'
+      path: '/scanner'
+      fullPath: '/scanner'
+      preLoaderRoute: typeof LayoutScannerImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -76,8 +76,10 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  LayoutRoute: LayoutRoute.addChildren({ LayoutIndexRoute }),
+  LayoutRoute: LayoutRoute.addChildren({
+    LayoutScannerRoute,
+    LayoutIndexRoute,
+  }),
   PlaceholderRoute,
 })
 
@@ -89,22 +91,23 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/_layout",
         "/placeholder"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
+        "/_layout/scanner",
         "/_layout/"
       ]
     },
     "/placeholder": {
       "filePath": "placeholder.tsx"
+    },
+    "/_layout/scanner": {
+      "filePath": "_layout/scanner.tsx",
+      "parent": "/_layout"
     },
     "/_layout/": {
       "filePath": "_layout/index.tsx",
